@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import plistlib
 import shutil
+import shlex
 import subprocess
 import tarfile
 import tempfile
@@ -67,6 +68,31 @@ class Workflows(unittest.TestCase):
     def test_automatic_entry_preserves_active_game(self):
         result=self.run_script('play.sh','--bottle','Steam',extra={'X4_FAKE_PROCESSES':r'C:\Steam\X4.exe'})
         self.assertIn('already running',result.stdout)
+    def test_automatic_entry_without_options_reaches_launcher(self):
+        # Isolate installation and Wine while exercising Play.command's entry path
+        # using the real macOS Bash 3.2 interpreter and nounset behavior.
+        (self.scripts/'install.sh').write_text('#!/bin/bash\nexit 0\n')
+        (self.scripts/'launch.sh').write_text('#!/bin/bash\nprintf "launch reached, arguments: %s\\n" "$#"\n')
+        result=self.run_script('play.sh')
+        self.assertIn('launch reached, arguments: 0',result.stdout)
+    def test_hud_restarts_existing_managed_steam_gracefully(self):
+        common=self.scripts/'common.sh'
+        common.write_text(common.read_text().replace('DEFAULT_APP="$HOME/Applications/CrossOver-X4.app"',
+                                                    'DEFAULT_APP='+shlex.quote(str(self.dst))))
+        marker=self.dst/'Contents/Resources/x4-macos-launcher.plist'
+        marker.parent.mkdir(parents=True);marker.touch()
+        called=self.base/'steam-shutdown'
+        wine=self.dst/'Contents/SharedSupport/CrossOver/bin/wine'
+        wine.parent.mkdir(parents=True)
+        wine.write_text('#!/bin/bash\nprintf "%s\\n" "$@" > '+shlex.quote(str(called))+'\n')
+        wine.chmod(0o755)
+        self.shim('ps','[ -f '+shlex.quote(str(called))+' ] || printf "%s\\n" "${X4_FAKE_PROCESSES:-}"')
+        (self.scripts/'install.sh').write_text('#!/bin/bash\nexit 0\n')
+        (self.scripts/'launch.sh').write_text('#!/bin/bash\nexit 0\n')
+        processes=str(wine.parent/'wineserver')+'\n'+r'C:\Steam\steam.exe'
+        self.run_script('play.sh','--bottle','Steam','--metal-hud',extra={'X4_FAKE_PROCESSES':processes})
+        self.assertTrue(called.exists(),'Existing managed Steam must restart to inherit Metal HUD')
+        self.assertIn('-shutdown',called.read_text().splitlines())
     def test_help_and_missing_options(self):
         for script in ('install.sh','launch.sh','doctor.sh','uninstall.sh'):
             self.run_script(script,'--help')

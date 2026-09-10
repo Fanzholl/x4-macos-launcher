@@ -2,7 +2,7 @@
 # Shared helpers; Bash 3.2, standard macOS tools only.
 set -euo pipefail
 X4_PROJECT='x4-macos-launcher'
-X4_VERSION='0.1.0'
+X4_VERSION='0.1.1'
 MVK_VERSION='1.4.1'
 MVK_SHA256='5e662d77f7f280d9bd692ac5d626831198f404e28b0c8d4d11aac04bff8ff418'
 MVK_URL='https://github.com/KhronosGroup/MoltenVK/releases/download/v1.4.1/MoltenVK-macos-privateapi.tar'

@@ -24,7 +24,7 @@ if [ -n "$bottle" ] && [ -n "$old_paths" ]; then
  if [ -z "$unknown" ]; then
   while IFS= read -r p; do
    [ -n "$p" ] || continue
-   case "$p" in "$DEFAULT_APP/"*) continue;; esac
+   case "$p" in "$DEFAULT_APP/"*) [ "$hud" = 1 ] || continue;; esac
    old_app="${p%%/Contents/*}"
    case "$old_app" in /*.app) ;; *) continue;; esac
    [ -x "$old_app/Contents/SharedSupport/CrossOver/bin/wine" ] || continue
@@ -32,7 +32,8 @@ if [ -n "$bottle" ] && [ -n "$old_paths" ]; then
    "$old_app/Contents/SharedSupport/CrossOver/bin/wine" --bottle "$bottle" --no-update --no-wait --cx-app 'C:\Program Files (x86)\Steam\steam.exe' -shutdown || true
   done <<< "$old_paths"
   for ((i=0;i<45;i++)); do
-   current="$(ps -axo comm= | awk '/\/Contents\/SharedSupport\/CrossOver\/.*wineserver/ {print}' | grep -v -F "$DEFAULT_APP/" || true)"
+   current="$(ps -axo comm= | awk '/\/Contents\/SharedSupport\/CrossOver\/.*wineserver/ {print}')"
+   if [ "$hud" = 0 ]; then current="$(printf '%s\n' "$current" | grep -v -F "$DEFAULT_APP/" || true)"; fi
    [ -z "$current" ] && break
    sleep 1
   done
@@ -42,4 +43,9 @@ args=()
 [ -z "$bottle" ] || args+=(--bottle "$bottle")
 [ "$hud" = 0 ] || args+=(--metal-hud)
 [ "$diagnostic" = 0 ] || args+=(--diagnostic)
-bash "$HERE/launch.sh" "${args[@]}"
+# macOS Bash 3.2 treats an empty array as unset under nounset.
+if [ "${#args[@]}" -gt 0 ]; then
+ bash "$HERE/launch.sh" "${args[@]}"
+else
+ bash "$HERE/launch.sh"
+fi

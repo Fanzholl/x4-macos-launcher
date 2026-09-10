@@ -1,6 +1,6 @@
 # Validation record
 
-10 September 2026, release 0.1.0.
+10 September 2026, release 0.1.1.
 
 ## Completed
 
@@ -9,7 +9,7 @@
 3. X4 was launched via the copied CrossOver runtime. The player confirmed stable gameplay, no visible artifacts and no major freezes in early and heavily developed saves. A later screenshot also shows an external flight view. There is no instrumented FPS result.
 4. The packaged installer was run against the real CrossOver 26.2 installation using a separate validation destination. The installed library hash, managed marker and strict bundle signature were checked. The original library hash remained unchanged.
 5. The automatic entry script installed a managed copy, then launched Steam with the X4 launch request. The initial graceful Steam shutdown test exposed a wait that was too short; the wait was extended to 45 seconds. No force kill is used.
-6. Fourteen isolated workflow tests pass on macOS. They cover checksum rejection, signing failure cleanup, original preservation, duplicate installs, symlink/path rejection, unknown destinations, version gating, active game preservation, bottle ambiguity, incomplete downloads, 32 bit bottles and runtime conflicts.
+6. Sixteen isolated workflow tests pass on macOS. They cover checksum rejection, signing failure cleanup, original preservation, duplicate installs, symlink/path rejection, unknown destinations, version gating, active game preservation, bottle ambiguity, incomplete downloads, 32 bit bottles and runtime conflicts. Regression tests also cover the automatic entry with no options under Bash 3.2 and graceful Steam shutdown when requesting Metal HUD on an already running managed runtime.
 7. The Swift desktop application builds for Apple Silicon, passes its resource self test and strict code signature verification. The ZIP contains the app and bundled scripts, without game or vendor binaries.
 
 ## Limits
