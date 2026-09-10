@@ -1,0 +1,20 @@
+name: Build release
+on:
+  push:
+    tags:
+      - 'v*'
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test
+        run: python3 -m unittest discover -s tests -v
+      - name: Build app
+        run: bash scripts/build-app.sh
+      - name: Publish assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/X4.Launcher.zip dist/SHA256SUMS.txt --title "X4 Launcher $GITHUB_REF_NAME" --notes-file docs/release-notes.md

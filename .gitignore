@@ -1,0 +1,10 @@
+.DS_Store
+*.log
+*.dmp
+*.dylib
+*.tar
+*.zip
+*.app/
+work/
+__pycache__/
+dist/

@@ -1,0 +1,34 @@
+name: Compatibility / performance report
+description: Report a reproducible result without private logs
+body:
+  - type: input
+    id: system
+    attributes:
+      label: Mac model, chip, CPU/GPU cores, RAM and macOS version
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: CrossOver version, launcher version, X4 Steam build and DLC/mods
+    validations:
+      required: true
+  - type: textarea
+    id: settings
+    attributes:
+      label: Resolution and settings
+      description: Include in-game resolution, Retina mode, upscaler, AA, frame cap and actual game speed. Do not infer resolution from screenshot size.
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: Scene, save complexity, duration and result
+      description: Distinguish measured FPS/frame times from subjective estimates. Separate map, cockpit, station and battle. Include artifacts/crashes.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: No account IDs, personal paths, save uploads or full logs unless you reviewed them. Include exact error text and minimal relevant lines.

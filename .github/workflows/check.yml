@@ -1,0 +1,13 @@
+name: Validate launcher
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  shell-workflows:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Bash syntax
+        run: for script in scripts/*.sh *.command; do /bin/bash -n "$script"; done
+      - name: Run isolated workflow tests
+        run: python3 -m unittest discover -s tests -v
