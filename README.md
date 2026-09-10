@@ -22,11 +22,11 @@ The original CrossOver remains in place. Both copies share your existing Steam b
 
 ## Tested result
 
-MacBook Pro with M4 Max, 16 CPU cores, 40 GPU cores and 48 GB memory. macOS 26.3.1 (a), CrossOver 26.2, MoltenVK 1.4.1 private API.
+I tested the game on my MacBook Pro with M4 Max, 16 CPU cores, 40 GPU cores and 48 GB memory, using macOS 26.3.1 (a), CrossOver 26.2 and MoltenVK 1.4.1 private API.
 
-The player reports no visible artifacts or major freezes. Smoothness was subjectively estimated at roughly **45 to 60 FPS** in a heavily developed save and **100 FPS or more** in an early save. There was no working FPS counter, so these are impressions rather than measurements.
+The game runs stably for me, with no visible artifacts or major freezes. My heavily developed save with megastations and thousands of ships feels like roughly **45 to 60 FPS**. An early save feels like **100 FPS or more** at the same settings. These are my subjective estimates: the Steam counter in CrossOver shows a black field, so I do not yet have an exact measurement.
 
-The selected game resolution is **1740×1129**. The physical display is **3456×2234**. Performance at the full panel resolution has not been measured.
+I selected **1740×1129** in the game. My MacBook's physical display is **3456×2234**. I have not measured performance at the full panel resolution.
 
 A conservative starting point for testing is an actively cooled M4 Pro with 24 GB memory, around 1080p and Medium settings. This is provisional advice. There is no verified minimum Mac or guaranteed 60 FPS configuration. Large saves benefit from additional memory headroom. See [settings and methodology](docs/performance.md).
 
@@ -40,6 +40,6 @@ The patch supplies the missing Vulkan `logicOp` feature. It downloads MoltenVK f
 
 ## Support
 
-Optional donations support testing and maintenance. [Boosty](https://boosty.to/fanzholl), MIR card and bank transfer details are on the [support page](SUPPORT.md).
+If you would like to support my work, you can donate through [Boosty](https://boosty.to/fanzholl) or the MIR card on my [support page](SUPPORT.md). The launcher is free. Donations help me keep testing and developing it.
 
 Thanks to [MoltenVK](https://github.com/KhronosGroup/MoltenVK), the [CodeWeavers forum contributors](https://www.codeweavers.com/support/forums/general/?t=27;msg=346291#c6) and [icetear](https://github.com/icetear/x4-crossover-moltenvk-fix) for the underlying workaround. This project is independent of Egosoft, CodeWeavers and Valve. [MIT](LICENSE) covers our code.
